@@ -1,13 +1,15 @@
 Hotshot Racing Tournament Standings generator
 =============================================
 
-This script uses ImageMagick to generate an image of the Wimpy's World of Linux Gaming Hotshot Racing Championship.
+This script uses [ImageMagick](https://imagemagick.org) to generate an image of the [Wimpy's World of Linux Gaming](https://www.youtube.com/channel/UC6D0aBP5pnWTGhQAvEmhUNw) Hotshot Racing<sup>[1](#1)</sup> Championship standings.
+
+![](hotshot_racing.png)
 
 It reads its data from `data.csv`, sorts it, and creates an image.
 
 Pre-requisite
 -------------
-You will need the font "Oswald-Bold" installed on your system. You can get it for free [from Google Fonts](https://fonts.google.com/specimen/Oswald).
+You will need the font `Oswald-Bold` installed on your system. You can get it for free [from Google Fonts](https://fonts.google.com/specimen/Oswald).
 
 You can check that the font is installed with the command 
 ```bash
@@ -59,3 +61,7 @@ The script assigns 12 points for first place, 11 for second, etc.
 In case of a tie, the racer with the most 1st places is in front. If it's still a tie, then the racer with the most 2nd places is in front, and so on.
 
 The script will read up to 8 results - 4 tournaments (Coast, Desert, Jungle and Mountain) in the normal and mirrored configuration.
+
+----
+
+<a name="1">1</a> : Hotshot Racing is a blisteringly fast arcade-style racing game fusing drift handling, razor-sharp retro visuals and an incredible sense of speed to create an exhilarating driving experience. Developer : [Sumo Digital Ltd.](https://www.sumo-digital.com/), [Lucky Mountain Games](http://luckymountaingames.co.uk/). Publisher : [Curve Digital](https://www.curve-digital.com/).
