@@ -24,11 +24,15 @@ sudo update-alternatives --install /usr/local/bin/magick magick /opt/ImageMagick
 Running the script
 ------------------
 
-Provided that the `magick` command is in the path and the `Oswald-Bold` font is installed, simply run the script with :
+You can get a list of available parameters, and their default values, with :
 ```
-bash ./hotshot.bash
+./hotshot.bash --help
 ```
-A few `png` files will be created, and the final one is called `hotshot_racing.png`
+
+If you just checked this project out, and provided that the `magick` command is in the path and the `Oswald-Bold` font is installed, you can simply run the script with :
+```
+./hotshot.bash
+```
 
 The data
 --------
