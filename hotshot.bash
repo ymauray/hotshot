@@ -16,17 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-echo "hotshot.bash  Copyright (C) 2021  Yannick Mauray"
-echo "This program comes with ABSOLUTELY NO WARRANTY."
-echo "This is free software, and you are welcome to redistribute it"
-echo "under certain conditions."
-echo ""
-
-if [ ! -f data.csv ]; then
-    echo "data.csv not found"
-    exit 1
-fi
-
 function computeScore()
 {
     local score=0
@@ -38,6 +27,7 @@ function computeScore()
     local sixths=0
     local sevenths=0
     local eights=0
+
     while [ ! -z "${1}" ]; do
         if [ ! ${1} -eq 0 ]; then
             score=$((${score} + 13 - ${1}))
@@ -68,8 +58,77 @@ function computeScore()
         fi
         shift
     done
+
     echo ${score},${firsts},${seconds},${thirds},${fourths},${fiths},${sixths},${sevenths},${eights}
 }
+
+function makerow()
+{
+    echo "Make row ${1}"
+
+    local n=${1}
+    local bg=${2}
+    local racer=${3}
+    local coast=${4}
+    local tsaoc=${5}
+    local desert=${6}
+    local tresed=${7}
+    local jungle=${8}
+    local elgnuj=${9}
+    local mountain=${10}
+    local niatnuom=${11}
+    local season=${12}
+
+    local y0=$((n * 60 + 190))
+    local y1=$((y0 + 60 - 1))
+    local dx=$((134 - 8 * n))
+    local dy=$((n * 60 + 190))
+
+    # Row
+    magick -size 1920x1080 canvas:none -fill "${bg}" -draw "rectangle 0,${y0} 1920,${y1}" mask.png -compose multiply -composite row.png
+    
+    # Racer name
+    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size 1920x60 -gravity west label:"${racer}" label.png
+    magick row.png label.png -geometry +${dx}+${dy} -composite row.png
+
+    # Coast
+    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"${coast} / ${tsaoc}" label.png
+    dx=$((dx+${w0}))
+    magick row.png label.png -geometry +${dx}+${dy} -composite row.png
+
+    # Desert
+    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"${desert} / ${tresed}" label.png
+    dx=$((dx+${w}))
+    magick row.png label.png -geometry +${dx}+${dy} -composite row.png
+
+    # Jungle
+    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"${jungle} / ${elgnuj}" label.png
+    dx=$((dx+${w}))
+    magick row.png label.png -geometry +${dx}+${dy} -composite row.png
+
+    # Mountain
+    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"${mountain} / ${niatnuom}" label.png
+    dx=$((dx+${w}))
+    magick row.png label.png -geometry +${dx}+${dy} -composite row.png
+
+    # Season
+    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"${season}" label.png
+    dx=$((dx+${w}))
+    magick row.png label.png -geometry +${dx}+${dy} -composite row.png
+
+    magick main.png row.png -composite main.png
+}
+
+echo "hotshot.bash  Copyright (C) 2021  Yannick Mauray"
+echo "This program comes with ABSOLUTELY NO WARRANTY."
+echo "This is free software, and you are welcome to redistribute it"
+echo "under certain conditions."
+echo ""
+
+if [ ! -f data.csv ]; then
+    echo "data.csv not found"
+    exit 1
+fi
 
 rm -f tmp.csv
 cat data.csv | while read -r line
@@ -129,63 +188,6 @@ magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -si
 magick table_header.png label.png -geometry +${o6}+130 -composite table_header.png
 
 magick header.png table_header.png -composite main.png
-
-function makerow()
-{
-    echo "Make row ${1}"
-
-    local n=${1}
-    local bg=${2}
-    local racer=${3}
-    local coast=${4}
-    local tsaoc=${5}
-    local desert=${6}
-    local tresed=${7}
-    local jungle=${8}
-    local elgnuj=${9}
-    local mountain=${10}
-    local niatnuom=${11}
-    local season=${12}
-
-    local y0=$((n * 60 + 190))
-    local y1=$((y0 + 60 - 1))
-    local dx=$((134 - 8 * n))
-    local dy=$((n * 60 + 190))
-
-    # Row
-    magick -size 1920x1080 canvas:none -fill "${bg}" -draw "rectangle 0,${y0} 1920,${y1}" mask.png -compose multiply -composite row.png
-    
-    # Racer name
-    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size 1920x60 -gravity west label:"${racer}" label.png
-    magick row.png label.png -geometry +${dx}+${dy} -composite row.png
-
-    # Coast
-    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"${coast} / ${tsaoc}" label.png
-    dx=$((dx+${w0}))
-    magick row.png label.png -geometry +${dx}+${dy} -composite row.png
-
-    # Desert
-    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"${desert} / ${tresed}" label.png
-    dx=$((dx+${w}))
-    magick row.png label.png -geometry +${dx}+${dy} -composite row.png
-
-    # Jungle
-    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"${jungle} / ${elgnuj}" label.png
-    dx=$((dx+${w}))
-    magick row.png label.png -geometry +${dx}+${dy} -composite row.png
-
-    # Mountain
-    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"${mountain} / ${niatnuom}" label.png
-    dx=$((dx+${w}))
-    magick row.png label.png -geometry +${dx}+${dy} -composite row.png
-
-    # Season
-    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"${season}" label.png
-    dx=$((dx+${w}))
-    magick row.png label.png -geometry +${dx}+${dy} -composite row.png
-
-    magick main.png row.png -composite main.png
-}
 
 index=0
 colorindex=0
