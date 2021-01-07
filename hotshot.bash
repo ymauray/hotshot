@@ -59,22 +59,16 @@ do
     echo ${s},${line} >> tmp.csv
 done
 
-if [ ! -f transparent.png ]; then
-    echo "Make a transparent image for compositing purposes"
-    magick -size 1920x1080 canvas:none transparent.png
-fi
+echo "Make a transparent image for compositing purposes"
+magick -size 1920x1080 canvas:none transparent.png
 
-if [ ! -f mask.png ]; then
-    echo "Make the main mask"
-    magick -size 1920x1080 canvas:none -fill white -draw 'polygon 150,0 0,1080 1770,1080 1920,0' mask.png
-fi
+echo "Make the main mask"
+magick -size 1920x1080 canvas:none -fill white -draw 'polygon 150,0 0,1080 1770,1080 1920,0' mask.png
 
-if [ ! -f header.png ]; then
-    echo "Make the header"
-    magick -size 1920x1080 canvas:none -fill "#fdfd03" -draw 'rectangle 0,15 1920,104' mask.png -compose multiply -composite row.png
-    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 50 -size 1758x90 -gravity center label:"2020 Hotshot Racing Winter Championship" label.png
-    magick row.png label.png -geometry +148+15 -composite header.png
-fi
+echo "Make the header"
+magick -size 1920x1080 canvas:none -fill "#fdfd03" -draw 'rectangle 0,15 1920,104' mask.png -compose multiply -composite row.png
+magick -background transparent -fill black -font "Oswald-Bold" -pointsize 50 -size 1758x90 -gravity center label:"2020 Hotshot Racing Winter Championship" label.png
+magick row.png label.png -geometry +148+15 -composite header.png
 
 w0=220
 w=295
@@ -85,34 +79,32 @@ o4=$((${o3} + ${w})) # Jungle
 o5=$((${o4} + ${w})) # Mountain
 o6=$((${o5} + ${w})) # Championship
 
-if [ ! -f table_header.png ]; then
-    echo "Make the table header"
-    magick -size 1920x1080 canvas:none -fill "#cacd00" -draw 'rectangle 0,130 1920,189' mask.png -compose multiply -composite row.png
-    
-    # Racer
-    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size 1920x60 -gravity west label:"Racer" label.png
-    magick row.png label.png -geometry +${o1}+130 -composite table_header.png
-    
-    # Coast
-    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"Coast" label.png
-    magick table_header.png label.png -geometry +${o2}+130 -composite table_header.png
-    
-    # Desert
-    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"Desert" label.png
-    magick table_header.png label.png -geometry +${o3}+130 -composite table_header.png
+echo "Make the table header"
+magick -size 1920x1080 canvas:none -fill "#cacd00" -draw 'rectangle 0,130 1920,189' mask.png -compose multiply -composite row.png
 
-    # Jungle
-    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"Jungle" label.png
-    magick table_header.png label.png -geometry +${o4}+130 -composite table_header.png
+# Racer
+magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size 1920x60 -gravity west label:"Racer" label.png
+magick row.png label.png -geometry +${o1}+130 -composite table_header.png
 
-    # Mountain
-    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"Mountain" label.png
-    magick table_header.png label.png -geometry +${o5}+130 -composite table_header.png
+# Coast
+magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"Coast" label.png
+magick table_header.png label.png -geometry +${o2}+130 -composite table_header.png
 
-    # Championship
-    magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"Championship" label.png
-    magick table_header.png label.png -geometry +${o6}+130 -composite table_header.png
-fi
+# Desert
+magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"Desert" label.png
+magick table_header.png label.png -geometry +${o3}+130 -composite table_header.png
+
+# Jungle
+magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"Jungle" label.png
+magick table_header.png label.png -geometry +${o4}+130 -composite table_header.png
+
+# Mountain
+magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"Mountain" label.png
+magick table_header.png label.png -geometry +${o5}+130 -composite table_header.png
+
+# Championship
+magick -background transparent -fill black -font "Oswald-Bold" -pointsize 40 -size ${w}x60 -gravity center label:"Championship" label.png
+magick table_header.png label.png -geometry +${o6}+130 -composite table_header.png
 
 magick header.png table_header.png -composite main.png
 
