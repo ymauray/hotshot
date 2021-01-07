@@ -1,5 +1,5 @@
-Hotshot Racing Tournament Standings generator
-=============================================
+Hotshot Racing Championship Standings generator
+===========================??==================
 
 This script uses [ImageMagick](https://imagemagick.org) to generate an image of the [Wimpy's World of Linux Gaming](https://www.youtube.com/channel/UC6D0aBP5pnWTGhQAvEmhUNw) Hotshot Racing<sup>[1](#1)</sup> Championship standings.
 
