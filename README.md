@@ -1,70 +1,54 @@
 Hotshot Racing Championship Standings generator
 ===============================================
 
-This script uses [ImageMagick](https://imagemagick.org) to generate an image of the [Wimpy's World of Linux Gaming](https://www.youtube.com/channel/UC6D0aBP5pnWTGhQAvEmhUNw) Hotshot Racing<sup>[1](#1)</sup> Championship standings.
+This GIMP plug-in generates an image of the [Wimpy's World of Linux Gaming](https://www.youtube.com/channel/UC6D0aBP5pnWTGhQAvEmhUNw) Hotshot Racing<sup>[1](#1)</sup> Championship standings.
 
 ![](hotshot_racing.png)
 
-It reads its data from `data.csv`, sorts it, and creates an image.
+It reads its data from a text file sorts it, and creates an image.
 
 Pre-requisite
 -------------
 You will need the font `Oswald-Bold` installed on your system. You can get it for free [from Google Fonts](https://fonts.google.com/specimen/Oswald).
 
-You can check that the font is installed with the command 
-```bash
-magick -list font | grep Oswald-Bold
-```
+You will also need [GIMP](https://www.gimp.org/), of course.
 
-You will also need [ImageMagick](https://imagemagick.org/script/download.php#unix) installed. I use the appimage, I saved it in `/opt/ImageMagick` and installed it using `update-alternative` : 
-```
-sudo update-alternatives --install /usr/local/bin/magick magick /opt/ImageMagick/magick 50
-```
+Installing the script
+---------------------
+
+Clone this repository, then copy or symlink `hotshot-generator.py` to your plug-ins folder. You can see what folder(s) GIMP is searching for plug-ins in the `Edit` / `Preferences` dialog : open the `Folders` section, and select `Plug-ins`.
 
 Running the script
 ------------------
 
-You can get a list of available parameters, and their default values, with :
+Once the script is copied or symlinked - and GIMP is restarted, if it was running -, go to `File` / `Create` and select `Hotshot Racing standings`. A dialog will pop up, asking for the location of the data file, and the location of the background file. Both files are provided in the repo.
+
+Those options are stored in `hotshot-generator.conf`, so you'll only have to type them once.
+
+The configuration file is either in `$XDG_CONFIG_HOME` or `$HOME/.config` (if you are using the snap, then `XDG_CONFIG_HOME` is defined as `$HOME/snap/gimp/current/.config` at runtime).
+
+The data file
+-------------
+
+- The first line is the name of the championship.
+- The second line is the list of grand prix
+- All subsequent lines are results. Each line has the name of the driver, and the finishing positions for each grand prix, separated by a coma.
+
 ```
-./hotshot.bash --help
+2020 Hotshot Racing Winter Championship
+Coast, Desert, Jungle, Mountain
+Wimpy,2,3,1,2,1,3,6,1
+FrenchguyCH,1,1,3,1,2,4,1,2
+TwoD,4,5,4,3,4,1,4,4
+Bigcalm,3,6,6,5,6,6,7,5
+Popey,0,2,2,4,0,0,3,9
+Rpodcast,0,0,7,7,3,5,5,6
+Madhens,0,0,8,8,8,8,8,7
+Bigpod,0,0,0,0,5,2,2,3
+UnwiseGeek,0,0,5,6,0,0,0,0
+Hydromalis,0,0,0,0,7,7,0,8
+AndCatchFire,0,4,0,0,0,0,0,0
 ```
-
-If you just checked this project out, and provided that the `magick` command is in the path and the `Oswald-Bold` font is installed, you can simply run the script with :
-```
-./hotshot.bash
-```
-
-The data
---------
-`data.csv` contains the results of the different legs of the championship. The format is very simple :
-
-```csv
-racer name,position,position,position,...
-```
-
-where `position` is the finishing position of the racer for that leg.
-
-For example, at the time of writing, the file is :
-
-```csv
-Wimpy,2,3,1,2,1,3
-FrenchguyCH,1,1,3,1,2,4
-TwoD,4,5,4,3,4,1
-BigCalm,3,6,6,5,6,6
-Popey,0,2,2,4,0,0
-Rpodcast,0,0,7,7,3,5
-Madhens,0,0,8,8,8,8
-Bigpod,0,0,0,0,5,2
-UnwiseGeek,0,0,5,6,0,0
-Hydromalis,0,0,0,0,7,7
-AndCatchFire,0,4,0,0,0,0
-```
-
-The script assigns 12 points for first place, 11 for second, etc.
-
-In case of a tie, the racer with the most 1st places is in front. If it's still a tie, then the racer with the most 2nd places is in front, and so on.
-
-The script will read up to 8 results - 4 tournaments (Coast, Desert, Jungle and Mountain) in the normal and mirrored configuration.
 
 ----
 
